@@ -1,26 +1,35 @@
 import React from "react";
+import {useState, useEffect} from "react";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
 
-//create your first component
 const Home = () => {
-	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
-	);
+	const [counter, setCounter] = useState([0, 0, 0, 0, 0, 0]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const seconds= new Date().getSeconds();
+      const changeSeconds = Array.from(String(seconds), Number);
+
+      while (changeSeconds.length < 6) {
+        changeSeconds.unshift(0);
+      }
+      setCounter(changeSeconds);
+    }, 1000);
+      return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="d-flex bg-dark justify-content-center mx-5 mt-5" id="mainCard">
+      <i className="far fa-clock fa-lg text-white pt-3"></i>
+      {counter.map((num, i) => (
+        <div key={i} className="card bg-dark text-white" id="numCards">
+          <div className="card-body p-0 d-flex justify-content-center align-items-center">
+            {num}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 };
 
-export default Home;
+export default Home
